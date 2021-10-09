@@ -15,6 +15,7 @@ vue3+vite test
 todo ...
 
 ## vite
+* postcss
 * input
 * output
 * base - publicPath
