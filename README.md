@@ -10,7 +10,14 @@ vue3+vite test
 * computed
 * readonly
 * watchEffect
-* watch
+* watch  
+
+todo ...
 
 ## vite
-todo
+* input
+* output
+* base - publicPath
+* proxy
+* plugin
+* alias

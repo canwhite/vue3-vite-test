@@ -20,7 +20,7 @@ import {
   watchEffect,
   watch
 } from "vue"
-
+import axios from "axios"
 export default {
   name: 'App',
   data(){
@@ -183,9 +183,18 @@ export default {
   beforeCreate() {
     console.log("我是大头鱼");
   },
+  mounted() {
+    axios.get("/api/getWeather.php")
+    .then(res=>{
+      console.log(res);
+    })
+  },
 
   components: {
     Input
   }
 }
 </script>
+<style lang="scss" scoped>
+
+</style>
