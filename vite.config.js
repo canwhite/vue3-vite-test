@@ -87,7 +87,7 @@ export default defineConfig({
             input:{
                 main:resolve(__dirname,'index.html'),//也可以指定多个
             },
-            //默认所有静态文件都放在
+            //默认打包的所有静态文件都放在assets文件夹中，我们这里放在static中并拆分
             output: {
                 //这几个属性是roolup的
                 chunkFileNames: 'static/js/[name]-[hash].js',
