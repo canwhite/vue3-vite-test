@@ -18,7 +18,10 @@ import {
   computed,
   readonly,
   watchEffect,
-  watch
+  watch,
+  onMounted,
+  onUpdated,
+  onUnmounted,
 } from "vue"
 import axios from "axios"
 export default {
@@ -165,10 +168,25 @@ export default {
     }, 2000);
 
 
+    //(9)生命周期系列
+    //vue3也可以在setup函数下使用生命周期
+    //这些钩子函数的写法，和之前的钩子函数的写法不同，都是以on开头
+    //这样setup会不会太重了!
+    onMounted(() => {
+      console.log('mounted!')
+      axios.get("/api/getWeather.php")
+      .then(res=>{
+        console.log(res);
+      })
+    });
+    onUpdated(()=>{
+      console.log("updated!");
+    });
+    onUnmounted(() => {
+      console.log('unmounted!')
+    });
 
-
-
-
+  
 
     //可以返回一个对象，该对象可以在界面上渲染
     return {
@@ -183,11 +201,10 @@ export default {
   beforeCreate() {
     console.log("我是大头鱼");
   },
+
   mounted() {
-    axios.get("/api/getWeather.php")
-    .then(res=>{
-      console.log(res);
-    })
+    //setup里边的执行完了，这里会执行，他们是并行的
+    console.log("我也是mounted");
   },
 
   components: {
