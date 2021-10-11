@@ -11,7 +11,9 @@ vue3+vite test
 * readonly
 * watchEffect
 * watch  
-
+* provide && inject
+* refs
+* the life cycle
 todo ...
 
 ## vite

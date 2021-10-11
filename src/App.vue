@@ -8,10 +8,25 @@
   姓名:{{n_name}}
   {{test1}}
 
+  <div style="margin-top:10px"> provide && inject test</div>
+  <div>
+      <Test/>
+  </div>
+
+  <div style="margin-top:10px">refs test</div>
+  <p ref="el">123</p>
+
+  <div>用computed替代filter：{{accountInUSD}} </div>
+
+
+
+
+
 </template>
 
 <script>
 import Input from "./components/Input.vue"
+import Test from "./components/InjectTest.vue"
 import {
   reactive,
   ref,
@@ -22,22 +37,34 @@ import {
   onMounted,
   onUpdated,
   onUnmounted,
+  provide,
 } from "vue"
 import axios from "axios"
 export default {
   name: 'App',
   data(){
     return{
-      title:"蛙人"
+      title:"蛙人",
+      accountBalance:1000
     }
   },
 
-  /* props:{
-    title:{
+  props:{
+    /* accountBalance:{
+      type:Number,
+      //required:true,//表示必传
+      default:()=>1000
+    } */
+    /* title:{
       type:String,
       default:()=>"123"
+    } */
+  },
+  computed: {
+    accountInUSD() {
+      return '$' + this.accountBalance
     }
-  }, */
+  },
 
   //多了一个新的生命周期setup
   //位于props初始化之后，beforeCreate之前执行
@@ -104,6 +131,13 @@ export default {
     })
     test1.value = "123";
 
+    //PS:
+    //在vue3.x中移除了filters,没有了过滤器我们可以使用computed来替代
+    
+
+
+
+
     //(7)readonly
     //该方法接收传入一个对象，默认是只读功能，
     //是深层对象只读，不管嵌套多少层的属性都是只读状态
@@ -168,7 +202,24 @@ export default {
     }, 2000);
 
 
-    //(9)生命周期系列
+
+
+
+    //(9)provide && inject
+    //该方法vue2的provide、inject一样的，
+    //但是vue3新特性只允许在setup中使用
+    //虽说provide和inject主要是为高阶插件/组件库提供用例，
+    //但在业务中使用也可以起到事半功倍的效果
+    let name = ref("蛙人")
+    provide("name", name) // 传入一个响应式数据
+
+
+    //(10)refs
+    //该方法相当于vue2的refs一样获取元素，那么在setup中配合使用ref对象进行获取
+    let el = ref(null);
+    //在下边onMounted中输出
+
+    //(11)生命周期系列
     //vue3也可以在setup函数下使用生命周期
     //这些钩子函数的写法，和之前的钩子函数的写法不同，都是以on开头
     //这样setup会不会太重了!
@@ -178,6 +229,7 @@ export default {
       .then(res=>{
         console.log(res);
       })
+      console.log("el",el);
     });
     onUpdated(()=>{
       console.log("updated!");
@@ -186,13 +238,17 @@ export default {
       console.log('unmounted!')
     });
 
+
+
   
 
     //可以返回一个对象，该对象可以在界面上渲染
     return {
       name:"蛙人",
       n_name,
-      test
+      test,
+      //记得这里定义的el要返回
+      el
     }
 
 
@@ -205,10 +261,12 @@ export default {
   mounted() {
     //setup里边的执行完了，这里会执行，他们是并行的
     console.log("我也是mounted");
+    
   },
 
   components: {
-    Input
+    Input,
+    Test
   }
 }
 </script>
