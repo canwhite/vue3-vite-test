@@ -13,7 +13,8 @@ vue3+vite test
 * watch  
 * provide && inject
 * refs
-* the life cycle
+* the life cycle  
+
 todo ...
 
 ## vite
